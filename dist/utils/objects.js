@@ -13,6 +13,7 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.getDeltaObject = exports.shapeAny = exports.shapeArray = exports.shapeBoolean = exports.shapeString = exports.shapeNumber = exports.ShapedArray = exports.getHash = void 0;
 function getHash(obj) {
     if (obj === undefined || obj === null) {
         return 'null';

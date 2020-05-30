@@ -19,6 +19,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.RouterMount = void 0;
 var react_1 = require("react");
 var mobx_react_1 = require("mobx-react");
 var RouterMount = /** @class */ (function (_super) {
