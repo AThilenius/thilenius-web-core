@@ -1,5 +1,19 @@
 import * as React from 'react';
-import UrlPattern = require('url-pattern');
+export interface UrlPatternOptions {
+    escapeChar?: string;
+    segmentNameStartChar?: string;
+    segmentValueCharset?: string;
+    segmentNameCharset?: string;
+    optionalSegmentStartChar?: string;
+    optionalSegmentEndChar?: string;
+    wildcardChar?: string;
+}
+export declare class UrlPattern {
+    private internalPattern;
+    constructor(pattern: string, options?: UrlPatternOptions | string[]);
+    match(url: string): any;
+    stringify(values?: any): string;
+}
 export declare type UrlParamShape = {
     [key: string]: string;
 };

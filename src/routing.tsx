@@ -1,9 +1,37 @@
 import { action, observable } from 'mobx';
 import * as qs from 'qs';
 import * as React from 'react';
-import UrlPattern = require('url-pattern');
+import UrlPatternInt = require('url-pattern');
 
 import { getDeltaObject, shapeAny } from './utils/objects';
+
+// Re-export UrlPatternOptions
+export interface UrlPatternOptions {
+  escapeChar?: string;
+  segmentNameStartChar?: string;
+  segmentValueCharset?: string;
+  segmentNameCharset?: string;
+  optionalSegmentStartChar?: string;
+  optionalSegmentEndChar?: string;
+  wildcardChar?: string;
+}
+
+// Re-export UrlPattern as a wrapper.
+export class UrlPattern {
+  private internalPattern: UrlPatternInt;
+
+  public constructor(pattern: string, options?: UrlPatternOptions | string[]) {
+    this.internalPattern = new UrlPatternInt(pattern, options as any);
+  }
+
+  match(url: string): any {
+    return this.internalPattern.match(url);
+  }
+
+  stringify(values?: any): string {
+    return this.internalPattern.stringify(values);
+  }
+}
 
 export type UrlParamShape = { [key: string]: string };
 
@@ -27,7 +55,7 @@ export function StandardMatch(pageType: {
   new (props: any): Page;
 }): RouteEntry {
   const inst = new pageType({});
-  return url => {
+  return (url) => {
     const params = inst.urlPattern.match(url);
     if (!params) {
       return null;
@@ -101,7 +129,7 @@ export class Router {
     const queryStr = urlObj.search.trim().replace(/^\?/, '');
 
     // Try to match it with any of the entries
-    const entry = this.entries.map(e => e(pathname)).find(e => e);
+    const entry = this.entries.map((e) => e(pathname)).find((e) => e);
     if (!entry) {
       console.error('No route matched the url:', url);
       return;

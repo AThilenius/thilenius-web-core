@@ -33,7 +33,22 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var mobx_1 = require("mobx");
 var qs = require("qs");
 var React = require("react");
+var UrlPatternInt = require("url-pattern");
 var objects_1 = require("./utils/objects");
+// Re-export UrlPattern as a wrapper.
+var UrlPattern = /** @class */ (function () {
+    function UrlPattern(pattern, options) {
+        this.internalPattern = new UrlPatternInt(pattern, options);
+    }
+    UrlPattern.prototype.match = function (url) {
+        return this.internalPattern.match(url);
+    };
+    UrlPattern.prototype.stringify = function (values) {
+        return this.internalPattern.stringify(values);
+    };
+    return UrlPattern;
+}());
+exports.UrlPattern = UrlPattern;
 var Page = /** @class */ (function (_super) {
     __extends(Page, _super);
     function Page() {
@@ -119,7 +134,7 @@ var Router = /** @class */ (function () {
             console.warn('Failed to parse query string:', e);
         }
         var shapedQuery = objects_1.shapeAny(entry.defaultQuery, queryObj);
-        var props = __assign({}, entry.props, { urlQuery: shapedQuery });
+        var props = __assign(__assign({}, entry.props), { urlQuery: shapedQuery });
         var newPage = entry.constructor(props);
         this.goto(newPage, historyAction);
     };
